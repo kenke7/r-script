@@ -1,18 +1,18 @@
 var _ = require("underscore"),
     child_process = require("child_process");
 
-function init(path) {
-  var obj = new R(path);
+function init(path, opts) {
+  var obj = new R(path, opts);
   return _.bindAll(obj, "data", "call", "callSync");
 }
 
-function R(path) {
+function R(path, options) {
   this.d = {};
   this.path = path;
-  this.options = {
+  this.options = _.extend(options || {}, {
     env: _.extend({DIRNAME: __dirname}, process.env),
     encoding: "utf8"
-  };
+  });
   this.idCounter = 0;
   this.args = ["--vanilla", __dirname + "/R/launch.R"];
 }
